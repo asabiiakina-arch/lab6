@@ -1,0 +1,180 @@
+#include <iostream>
+#include <limits>
+#include <string>
+
+using namespace std;
+
+const int N = 50; // максимальний розмір масиву
+// ===== ПРОТОТИПИ ФУНКЦІЙ =====
+int input_positive_int(const string& prompt);
+int input_int(const string& prompt);
+void input_array(int in_arr[N], int &in_n);
+void output_array(const int out_arr[N], const int out_n);
+
+int find_last_local_max(const int arr[N], const int n);
+void task_array_33();
+
+void remove_equal_neighbors(int arr[N], int &n);
+void task_array_95();
+
+// ===== ГОЛОВНА ФУНКЦІЯ =====
+int main() {
+    int menu;
+
+    // Меню для вибору завдання
+    cout << "Виберіть завдання для виконання:" << endl;
+    cout << "33 - Array33 (останній локальний максимум)" << endl;
+    cout << "95 - Array95 (видалення сусідніх однакових)" << endl;
+    cout << "Введіть номер завдання: ";
+    cin >> menu;
+
+    // Виконання завдання за номером
+    switch (menu) {
+    case 33:
+        task_array_33();
+        break;
+    case 95:
+        task_array_95();
+        break;
+    default:
+        cout << "Неправильний номер завдання! (Доступні: 33, 95)" << endl;
+    }
+
+    cout << "\nПрограма завершила роботу." << endl;
+    return 0;
+}
+// ===== РЕАЛІЗАЦІЯ ФУНКЦІЙ =====
+// Функція для введення коректного додатного цілого числа
+int input_positive_int(const string& prompt) {
+    int value;
+    while (true) {
+        cout << prompt;
+        cin >> value;
+        if (cin.fail() || value <= 0) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Помилка! Будь ласка, введіть ціле число більше 0!" << endl;
+        } else {
+            return value;
+        }
+    }
+}
+
+// Функція для введення коректного цілого числа
+int input_int(const string& prompt) {
+    int value;
+    while (true) {
+        cout << prompt;
+        cin >> value;
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Помилка! Будь ласка, введіть ціле число!" << endl;
+        } else {
+            return value;
+        }
+    }
+}
+
+// введення масиву цілих чисел
+void input_array(int in_arr[N], int &in_n) {
+    do {
+        in_n = input_positive_int("Count of elements (2..50): ");
+    } while (in_n < 2 || in_n > N);
+
+    for (int i = 0; i < in_n; i++) {
+        in_arr[i] = input_int("Element " + to_string(i + 1) + ": ");
+    }
+}
+
+// виведення масиву
+void output_array(const int out_arr[N], const int out_n) {
+    cout << "Array elements: " << endl;
+    for (int i = 0; i < out_n; i++) {
+        cout << out_arr[i] << " ";
+    }
+    cout << endl;
+}
+
+// ===================== Array33 =====================
+// пошук номера останнього локального максимуму
+int find_last_local_max(const int arr[N], const int n) {
+    int last_index = -1;
+
+    // локальний максимум не може бути першим і останнім елементом
+    for (int i = 1; i < n - 1; i++) {
+        if (arr[i] > arr[i - 1] && arr[i] > arr[i + 1]) {
+            last_index = i; // запам'ятовуємо останній
+        }
+    }
+    return last_index;
+}
+
+// Array33.
+// Дан масив розміру N.
+// Знайти номер його останнього локального максимуму
+// локальний максимум - елемент, більший за обох сусідів
+void task_array_33() {
+    // декларації
+    // масив
+    int array[N];
+    // кількість елементів
+    int n;        
+    // введення елементів
+    input_array(array, n);
+
+    // виведення масиву
+    output_array(array, n);
+
+    // пошук локального максимуму
+    int index = find_last_local_max(array, n);
+
+    if (index == -1) {
+        cout << "Local maximum not found." << endl;
+    } else {
+        cout << "Last local maximum index: " << index + 1 << endl;
+    }
+}
+
+// =============== Array95 ===============
+// видалення сусідніх однакових елементів
+void remove_equal_neighbors(int arr[N], int &n) {
+    for (int i = 1; i < n; i++) {
+        if (arr[i] == arr[i - 1]) {
+            // зсув елементів вліво
+            for (int j = i; j < n - 1; j++) {
+                arr[j] = arr[j + 1];
+            }
+            // зменшуємо розмір масиву
+            n--; 
+            // повторна перевірка для нової пари
+            i--;   
+        }
+    }
+}
+
+// Array95.
+// Дан цілочисельний масив розміру N.
+// Видалити з масиву всі сусідні однакові елементи,
+// залишивши їх перші входження.
+void task_array_95() {
+    // декларації
+    // масив
+    int array[N];
+    // кількість елементів
+    int n;        
+
+    // введення елементів
+    input_array(array, n);
+
+    // виведення початкового масиву
+    cout << "Initial array:" << endl;
+    output_array(array, n);
+
+    // перетворення масиву
+    remove_equal_neighbors(array, n);
+
+    // виведення зміненого масиву
+    cout << "Modified array:" << endl;
+    output_array(array, n);
+}
