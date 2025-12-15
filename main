@@ -5,7 +5,7 @@
 using namespace std;
 
 const int N = 50; // максимальний розмір масиву
-// ===== ПРОТОТИПИ ФУНКЦІЙ =====
+// ПРОТОТИПИ ФУНКЦІЙ 
 int input_positive_int(const string& prompt);
 int input_int(const string& prompt);
 void input_array(int in_arr[N], int &in_n);
@@ -17,7 +17,7 @@ void task_array_33();
 void remove_equal_neighbors(int arr[N], int &n);
 void task_array_95();
 
-// ===== ГОЛОВНА ФУНКЦІЯ =====
+// ГОЛОВНА ФУНКЦІЯ 
 int main() {
     int menu;
 
@@ -43,7 +43,7 @@ int main() {
     cout << "\nПрограма завершила роботу." << endl;
     return 0;
 }
-// ===== РЕАЛІЗАЦІЯ ФУНКЦІЙ =====
+// РЕАЛІЗАЦІЯ ФУНКЦІЙ 
 // Функція для введення коректного додатного цілого числа
 int input_positive_int(const string& prompt) {
     int value;
